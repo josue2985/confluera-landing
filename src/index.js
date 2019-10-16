@@ -1,24 +1,31 @@
-import { bro } from './bro';
+/*import { bro } from './bro';*/
 import './styles/main.scss';
-import { TimelineLite } from 'gsap';
 
-var tl = new TimelineLite;
-console.log(tl)
-
-tl.to("#rectangle", 2, { 
-  x:100, 
-  y: 75,
-  backgroundColor: "#000000",
-  ease: Power4.easeIn
-})
-
-.to("#rectangle", 1, {
-  scaleX: 1.5,
-  scaleY: 1.5,
-  backgroundColor: "#454545",
-  ease: Back.easeOut.config(1.7)
-})
-
-.from("#circle", 1, {
-  opacity: 0
+TweenLite.defaultEase = Linear.easeNone;
+var controller = new ScrollMagic.Controller();
+var tl = new TimelineMax();
+tl.staggerFrom(".box", 1.5, {
+  scale: 0,
+  cycle: {
+    y: [-50, 50]
+  },
+  stagger: {
+    from: "center",
+    amount: 0.75
+  }
 });
+
+var scene = new ScrollMagic.Scene({
+  triggerElement: "#stage",
+  duration: "30%",
+  triggerHook: 0.25
+})
+  .addIndicators({
+    name: "Box Timeline",
+    colorTrigger: "white",
+    colorStart: "white",
+    colorEnd: "white"
+  })
+  .setTween(tl)
+  .addTo(controller);
+
